@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, FlatList } from 'react-native';
 import axios from 'axios';
-import ClickableRecipe from '../components/ClickableRecipe';
+import ClickableRecipe from '../../components/ClickableRecipe';
 
 const RecipeList = ({ navigation }) => {
   const [recipes, setRecipes] = useState([]);

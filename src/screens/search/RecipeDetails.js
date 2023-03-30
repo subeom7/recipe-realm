@@ -1,4 +1,3 @@
-// src/screens/RecipeDetails.js
 import React, { useEffect, useState } from 'react';
 import { View, Text, Image, ScrollView } from 'react-native';
 

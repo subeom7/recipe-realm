@@ -37,8 +37,8 @@ const RecipeDetails = ({ route, navigation }) => {
           style={{ width: '100%', height: 200 }}
           source={{ uri: recipeDetails.image }}
         />
-        <Text>Cuisine: {recipeDetails.cuisine}</Text>
-        <Text>Diet: {recipeDetails.diets.join(', ')}</Text>
+        {/* <Text>Cuisine: {recipeDetails.cuisine}</Text>
+        <Text>Diet: {recipeDetails.diets.join(', ')}</Text> */}
         <Text>
           Ingredients:{' '}
           {recipeDetails.extendedIngredients

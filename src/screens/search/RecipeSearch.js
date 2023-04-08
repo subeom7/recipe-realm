@@ -4,7 +4,7 @@ import { View, FlatList } from 'react-native';
 import axios from 'axios';
 import SearchBar from '../../components/SearchBar';
 import ClickableRecipe from '../../components/ClickableRecipe';
-import { API_KEY } from '@env';
+// import { API_KEY } from '@env';
 
 const RecipeSearch = ({ navigation }) => {
   const [recipes, setRecipes] = useState([]);
@@ -16,7 +16,7 @@ const RecipeSearch = ({ navigation }) => {
         'https://api.spoonacular.com/recipes/complexSearch',
         {
           params: {
-            apiKey: API_KEY,
+            apiKey: process.env.API_KEY,
             query: search,
             number: 10,
           },

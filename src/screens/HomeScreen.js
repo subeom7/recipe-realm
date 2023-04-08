@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import axios from 'axios';
 import RecipeOfTheDay from '../components/RecipeOfTheDay';
-import { API_KEY } from '@env';
+// import { API_KEY } from '@env';
 
 const HomeScreen = ({ navigation }) => {
   const [recipeOfTheDay, setRecipeOfTheDay] = useState(null);
@@ -17,7 +17,7 @@ const HomeScreen = ({ navigation }) => {
         'https://api.spoonacular.com/recipes/random',
         {
           params: {
-            apiKey: API_KEY,
+            apiKey: process.env.API_KEY,
             number: 1,
           },
         }

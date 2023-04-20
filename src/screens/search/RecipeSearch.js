@@ -16,7 +16,7 @@ const RecipeSearch = ({ navigation }) => {
         'https://api.spoonacular.com/recipes/complexSearch',
         {
           params: {
-            apiKey: API_KEY,
+            apiKey: process.env.API_KEY,
             query: search,
             number: 10,
           },

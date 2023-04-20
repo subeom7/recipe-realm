@@ -12,7 +12,7 @@ const RecipeDetails = ({ route, navigation }) => {
   async function fetchRecipeDetails() {
     try {
       const response = await fetch(
-        `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=d09d6982101f4d10968b4c601cd128f5`
+        `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${process.env.API_KEY}`
       );
       if (response.ok) {
         const data = await response.json();

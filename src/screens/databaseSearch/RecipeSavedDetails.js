@@ -12,43 +12,20 @@ import RenderHTML from "react-native-render-html";
 import { MaterialIcons, FontAwesome, Ionicons } from "@expo/vector-icons";
 
 import { Auth, API, graphqlOperation } from "aws-amplify";
-import { createRecipe } from "../../graphql/mutations";
+import { getRecipe } from "../../graphql/queries";
 
 const { height } = Dimensions.get("window");
 
-const RecipeDetails = ({ route, navigation }) => {
+const RecipeSavedDetails = ({ route, navigation }) => {
   const { recipeId } = route.params;
-  const [recipeDetails, setRecipeDetails] = useState(null);
-  const [calories, setCalories] = useState(null);
-  const [summary, setSummary] = useState(null);
-  const [ingredients, setIngredients] = useState(null);
-
-  const [instructionsForDB, setInstructionsForDB] = useState([]);
-  const [ingredientsForDB, setIngredientsForDB] = useState([]);
-
   const scrollY = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    fetchRecipeDetails();
-  }, []);
-
-  useEffect(() => {
-    fetchCalories();
-  }, []);
-
-  useEffect(() => {
-    fetchSummary();
-  }, []);
+  const [recipe, setRecipe] = useState();
 
   useEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   }, [navigation]);
-
-  useEffect(() => {
-    fetchIngredients();
-  }, []);
 
   useEffect(() => {
     navigation.setOptions({
@@ -66,136 +43,41 @@ const RecipeDetails = ({ route, navigation }) => {
     });
   }, [navigation]);
 
-  // Bookmark
-  useEffect(() => {
-    if (recipeDetails) {
-      recipeDetails.analyzedInstructions[0]?.steps.map((step) =>
-        setInstructionsForDB((prev) => [...prev, step.step])
-      );
-      recipeDetails.extendedIngredients.map((ingredient) =>
-        setIngredientsForDB((prev) => [...prev, ingredient.name])
-      );
-    }
-  }, [recipeDetails]);
-
   const translateY = scrollY.interpolate({
     inputRange: [0, height * 0.8],
     outputRange: [0, -height * 0.35],
     extrapolate: "clamp",
   });
 
-  async function fetchRecipeDetails() {
-    try {
-      const response = await fetch(
-        `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=0e18077b33ab44fc9bfb2d46ea51cd45&addRecipeInformation=true`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setRecipeDetails(data);
-      } else {
-        console.error("Error fetching recipe details:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching recipe details:", error);
-    }
-  }
-
-  async function fetchCalories() {
-    try {
-      const response = await fetch(
-        `https://api.spoonacular.com/recipes/${recipeId}/nutritionWidget.json?apiKey=0e18077b33ab44fc9bfb2d46ea51cd45`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setCalories(
-          data.nutrients.find((nutrient) => nutrient.name === "Calories")
-        );
-      } else {
-        console.error("Error fetching calories:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching calories:", error);
-    }
-  }
-
-  async function fetchSummary() {
-    try {
-      const response = await fetch(
-        `https://api.spoonacular.com/recipes/${recipeId}/summary?apiKey=0e18077b33ab44fc9bfb2d46ea51cd45`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setSummary(data.summary);
-      } else {
-        console.error("Error fetching summary:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching summary:", error);
-    }
-  }
-
-  async function fetchIngredients() {
-    try {
-      const response = await fetch(
-        `https://api.spoonacular.com/recipes/${recipeId}/ingredientWidget.json?apiKey=0e18077b33ab44fc9bfb2d46ea51cd45`
-      );
-      if (response.ok) {
-        const data = await response.json();
-        setIngredients(data.ingredients);
-      } else {
-        console.error("Error fetching ingredients:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error fetching ingredients:", error);
-    }
-  }
-
-  if (!recipeDetails || !calories || !summary) {
-    return (
-      <View>
-        <Text></Text>
-      </View>
-    );
-  }
-
-  const handleSave = async () => {
-    try {
-      const recipe = await recipeDetails;
-      const caloriesForDB = await calories;
-      const summaryForDB = await summary;
-      const ingredientsForDB = await ingredients;
-      const photo = recipe.image;
-      const user = await Auth.currentAuthenticatedUser();
-      const response = await API.graphql(
-        graphqlOperation(createRecipe, {
-          input: {
-            name: recipe.title,
-            ingredients: ingredientsForDB,
-            prepTime: recipe.readyInMinutes,
-            instructions: instructionsForDB,
-            userId: user.attributes.sub,
-            userName: user.username,
-            image: photo,
-            summary: summaryForDB,
-            calories: caloriesForDB,
+  useEffect(() => {
+    async function fetchRecipe() {
+      try {
+        const response = await API.graphql({
+          query: getRecipe,
+          variables: {
+            id: recipeId,
           },
-        })
-      );
-      console.log(response);
-    } catch (e) {
-      console.log(e);
+        });
+        const recipeData = response.data.getRecipe;
+        setRecipe(recipeData);
+        console.log(recipeData.instructions);
+      } catch (error) {
+        console.log("Error retrieving recipe: ", error);
+      }
     }
-  };
+    fetchRecipe();
+  }, []);
+
+  if (!recipe) {
+    return <Text>Loading...</Text>;
+  }
 
   return (
     <View>
-      <TouchableOpacity style={styles.bookmarkButton} onPress={handleSave}>
-        <MaterialIcons name="bookmark" color={"#808080"} size={24} />
-      </TouchableOpacity>
       <Image
         style={{ width: "100%", height: 500 }}
         source={{
-          uri: `https://spoonacular.com/recipeImages/${recipeId}-636x393.${recipeDetails.imageType}`,
+          uri: recipe.image,
         }}
         contentInset={{ top: 100 }}
       />
@@ -212,29 +94,28 @@ const RecipeDetails = ({ route, navigation }) => {
       >
         <View style={styles.draggableIndicator} />
 
-        <Text style={styles.title}>{recipeDetails.title}</Text>
-        <Text style={styles.author}>
-          by {recipeDetails.author || "Unknown"}
-        </Text>
+        <Text style={styles.title}>{recipe.name}</Text>
+        <Text style={styles.author}>by {recipe.author || "Unknown"}</Text>
 
         <View style={styles.infoContainer}>
           <View style={styles.infoItem}>
             <Ionicons name="time" size={24} color="#888" />
-            <Text style={styles.infoText}>
-              {recipeDetails.readyInMinutes} min
-            </Text>
+            <Text style={styles.infoText}>{recipe.prepTime} min</Text>
           </View>
-          <View style={styles.infoItem}>
+          {/* <View style={styles.infoItem}>
             <FontAwesome name="cutlery" size={24} color="#888" />
             <Text style={styles.infoText}>
-              {recipeDetails.cuisines.join(", ")}
+              {recipe.cuisines.join(", ")}
             </Text>
-          </View>
+          </View> */}
           <View style={styles.infoItem}>
             <Ionicons name="flame" size={24} color="#888" />
             {/* {calories.unit} ({calories.percentOfDailyNeeds.toFixed(2)}% of daily needs) */}
             <Text style={styles.infoText}>
-              {calories.amount.toFixed(2)} kcal
+              {parseFloat(recipe.calories.match(/amount=([\d.]+)/)[1]).toFixed(
+                2
+              )}{" "}
+              kcal
             </Text>
           </View>
         </View>
@@ -246,7 +127,7 @@ const RecipeDetails = ({ route, navigation }) => {
         <Text style={styles.description}>Description</Text>
         <RenderHTML
           contentWidth={100}
-          source={{ html: summary }}
+          source={{ html: recipe.summary }}
           style={styles.summary}
           tagsStyles={{
             a: {
@@ -258,34 +139,31 @@ const RecipeDetails = ({ route, navigation }) => {
             },
           }}
         />
-
-        <Text></Text>
-        {/* <Text>
-          Ingredients:{' '}
-          {recipeDetails.extendedIngredients
-            .map((ingredient) => ingredient.name)
-            .join(', ')}
-        </Text> */}
-
-        {ingredients && (
+        {recipe.ingredients && (
           <>
             <Text style={styles.sectionTitle}>Ingredients</Text>
-            {ingredients.map((ingredient, index) => (
+            {recipe.ingredients.map((ingredient, index) => (
+              // console.log(ingredient.match(/name=([^,]+)/)[1])
               <View
-                key={`${ingredient.name}-${index}`}
+                key={`${ingredient.match(/name=([^,]+)/)[1]}-${index}`}
                 style={styles.ingredientContainer}
               >
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <Image
                     style={styles.ingredientImage}
                     source={{
-                      uri: `https://spoonacular.com/cdn/ingredients_100x100/${ingredient.image}`,
+                      uri: `https://spoonacular.com/cdn/ingredients_100x100/${
+                        ingredient.match(/image=([^,]+)/)[1]
+                      }`,
                     }}
                   />
-                  <Text style={styles.ingredientName}>{ingredient.name}</Text>
+                  <Text style={styles.ingredientName}>
+                    {ingredient.match(/name=([^,]+)/)[1]}
+                  </Text>
                 </View>
                 <Text style={styles.ingredientAmount}>
-                  {ingredient.amount.us.value} {ingredient.amount.us.unit}
+                  {ingredient.match(/us={value=([^,}]+)/)[1]}{" "}
+                  {ingredient.match(/us={value=([^,]+), unit=([^,}]+)/)[2]}
                 </Text>
               </View>
             ))}
@@ -293,9 +171,9 @@ const RecipeDetails = ({ route, navigation }) => {
         )}
 
         <Text style={styles.sectionTitle}>Instruction</Text>
-        {recipeDetails.analyzedInstructions[0]?.steps.map((step) => (
-          <Text key={step.number}>
-            {step.number}. {step.step}
+        {recipe.instructions.map((step, index) => (
+          <Text key={index + 1}>
+            {index + 1}. {step}
           </Text>
         ))}
       </Animated.ScrollView>
@@ -443,4 +321,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RecipeDetails;
+export default RecipeSavedDetails;

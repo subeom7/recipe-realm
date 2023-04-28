@@ -1,21 +1,42 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect } from "react";
+import { createStackNavigator } from "@react-navigation/stack";
+import RecipeSavedSearch from "./databaseSearch/RecipeSavedSearch";
+import RecipeSavedList from "./databaseSearch/RecipeSavedList";
+import RecipeSavedDetails from "./databaseSearch/RecipeSavedDetails";
+import { Analytics } from "aws-amplify";
 
-function BookmarkScreen() {
+const Stack = createStackNavigator();
+
+const BookmarkScreen = () => {
+  // AWS analytics
+  useEffect(() => {
+    Analytics.record("Bookmark Page Visit");
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text>Bookmark Screen</Text>
-    </View>
+    <Stack.Navigator
+      initialRouteName="RecipeSavedSearch"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen
+        name="RecipeSavedSearch"
+        component={RecipeSavedSearch}
+        options={{ title: "" }}
+      />
+      <Stack.Screen
+        name="RecipeSavedList"
+        component={RecipeSavedList}
+        options={{ title: "" }}
+      />
+      <Stack.Screen
+        name="RecipeSavedDetails"
+        component={RecipeSavedDetails}
+        options={{ title: "Saved Recipe Details" }}
+      />
+    </Stack.Navigator>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+};
 
 export default BookmarkScreen;

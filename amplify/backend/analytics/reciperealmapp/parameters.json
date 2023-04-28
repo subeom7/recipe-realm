@@ -1,0 +1,21 @@
+{
+    "appName": "reciperealmapp",
+    "roleName": "pinpointLambdaRole5c3125bc",
+    "cloudformationPolicyName": "cloudformationPolicy5c3125bc",
+    "cloudWatchPolicyName": "cloudWatchPolicy5c3125bc",
+    "pinpointPolicyName": "pinpointPolicy5c3125bc",
+    "authPolicyName": "pinpoint_amplify_5c3125bc",
+    "unauthPolicyName": "pinpoint_amplify_5c3125bc",
+    "authRoleName": {
+        "Ref": "AuthRoleName"
+    },
+    "unauthRoleName": {
+        "Ref": "UnauthRoleName"
+    },
+    "authRoleArn": {
+        "Fn::GetAtt": [
+            "AuthRole",
+            "Arn"
+        ]
+    }
+}

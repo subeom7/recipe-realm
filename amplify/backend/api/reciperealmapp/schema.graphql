@@ -1,0 +1,13 @@
+type Recipe @model @auth(rules: [{allow: owner}, {allow: private, operations: [read]}]) {
+  id: ID!
+  name: String!
+  ingredients: [String]
+  prepTime: Float
+  instructions: [String]
+  userId: String
+  userName: String
+  image: String
+  summary: String
+  calories: String
+}
+ 

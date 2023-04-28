@@ -1,0 +1,14 @@
+{
+  "resourceName": "s399cc54ae",
+  "policyUUID": "99cc54ae",
+  "bucketName": "reciperealmappfd2a389fb7b44050849732c2848ad156",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ",
+    "DELETE"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

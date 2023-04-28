@@ -1,0 +1,12 @@
+{
+  "AppSyncApiName": "reciperealmapp",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthCognitoUserPoolId": {
+    "Fn::GetAtt": [
+      "authreciperealmapp912d19e4",
+      "Outputs.UserPoolId"
+    ]
+  },
+  "AuthModeLastUpdated": "2023-04-21T23:35:40.952Z"
+}

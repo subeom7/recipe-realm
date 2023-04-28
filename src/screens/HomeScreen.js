@@ -1,61 +1,64 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   StyleSheet,
   ImageBackground,
   ScrollView,
-  TouchableOpacity
-} from 'react-native';
-import axios from 'axios';
-import RecipeOfTheDay from '../components/RecipeOfTheDay';
-// import { API_KEY } from '@env';
+  TouchableOpacity,
+} from "react-native";
+import SearchComponent from "../components/SearchComponent";
+import CategoryList from "../components/CategoryList";
+import WeekList from "../components/WeekList";
+import RecommendList from "../components/RecommendList";
+import MaterialIcons from "react-native-vector-icons/Octicons";
+import { Analytics } from "aws-amplify";
 
 const HomeScreen = ({ navigation }) => {
-  // const [recipeOfTheDay, setRecipeOfTheDay] = useState(null);
+  // AWS analytics
+  useEffect(() => {
+    Analytics.record("Home Page Visit");
+  }, []);
 
-  // useEffect(() => {
-  //   fetchRecipeOfTheDay();
-  // }, []);
-
-  // const fetchRecipeOfTheDay = async () => {
-  //   try {
-  //     const response = await axios.get(
-  //       'https://api.spoonacular.com/recipes/random',
-  //       {
-  //         params: {
-  //           apiKey: process.env.API_KEY,
-  //           number: 1,
-  //         },
-  //       }
-  //     );
-  //     setRecipeOfTheDay(response.data.recipes[0]);
-  //   } catch (error) {
-  //     console.error('Error fetching recipe of the day:', error);
-  //   }
-  // };
-
-  // if (!recipeOfTheDay) {
-  //   return <Text>Loading...</Text>;
-  // }
+  const handlePress = () => {
+    navigation.navigate("AI");
+  };
 
   return (
     <View style={styles.container}>
-      {/* <Text style={styles.title}>Recipe of the Day</Text>
-      <RecipeOfTheDay recipe={recipeOfTheDay} navigation={navigation} /> */}
-      <ScrollView style={{ padding: 30 }}>
-      <Text style={{ color: '#676964', paddingBottom: 5 }}>Hello,</Text>
-        <View style={styles.header}>
+      <ScrollView
+        style={{ padding: 30 }}
+        contentContainerStyle={{ paddingBottom: 55 }}
+      >
+        <Text style={{ color: "#676964", paddingBottom: 5 }}>Hello,</Text>
+        <View style={styles.mainHeader}>
           <Text style={styles.title}>What would you like to cook today?</Text>
-          <TouchableOpacity onPress={() => navigation.openDrawer()}>
-            <ImageBackground
-              source={require('../assets/user-profile.jpeg')}
-              style={{ width: 45, height: 45, top: -20}}
+          <TouchableOpacity onPress={handlePress} style={styles.icon}>
+            {/* <ImageBackground
+              source={require('../assets/bryan-cranston.jpg')}
+              style={{ width: 45, height: 45, top: -20 }}
               imageStyle={{ borderRadius: 25 }}
-            />
+            /> */}
+            <MaterialIcons name="dependabot" color={"black"} size={30} />
           </TouchableOpacity>
         </View>
-      </ScrollView >
+        <SearchComponent />
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Categories</Text>
+          <Text style={styles.more}>See all</Text>
+        </View>
+        <CategoryList />
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Recommendation</Text>
+          <Text style={styles.more}>See all</Text>
+        </View>
+        <RecommendList />
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>RecipesOfTheWeek</Text>
+          <Text style={styles.more}>See all</Text>
+        </View>
+        <WeekList />
+      </ScrollView>
     </View>
   );
 };
@@ -64,19 +67,44 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 50,
-    backgroundColor: '#f7f7f7',
+    backgroundColor: "#f7f7f7",
   },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  mainHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginBottom: 20,
   },
   title: {
     fontSize: 22,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     width: 250,
-    marginBottom: 10,
-    overflow: 'hidden',
+    overflow: "hidden",
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    overflow: "hidden",
+  },
+  icon: {
+    borderRadius: 15,
+    borderWidth: 2,
+    borderColor: "black",
+    width: 45,
+    height: 45,
+    alignItems: "center",
+    justifyContent: "center",
+    // backgroundColor: '#1a995c',
+  },
+  more: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: "#1a995c",
   },
 });
 

@@ -1,0 +1,29 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-reciperealmapp-dev-211534-authRole",
+      "UnauthRoleArn": "arn:aws:iam::763023901929:role/amplify-reciperealmapp-dev-211534-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::763023901929:role/amplify-reciperealmapp-dev-211534-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-reciperealmapp-dev-211534-deployment",
+      "UnauthRoleName": "amplify-reciperealmapp-dev-211534-unauthRole",
+      "StackName": "amplify-reciperealmapp-dev-211534",
+      "StackId": "arn:aws:cloudformation:us-east-1:763023901929:stack/amplify-reciperealmapp-dev-211534/04e346c0-dfe2-11ed-b694-0ae371540c87",
+      "AmplifyAppId": "d1iaaybf3c5bkr"
+    },
+    "categories": {
+      "auth": {
+        "reciperealmapp912d19e4": {}
+      },
+      "api": {
+        "reciperealmapp": {}
+      },
+      "storage": {
+        "s399cc54ae": {}
+      },
+      "analytics": {
+        "reciperealmapp": {}
+      }
+    }
+  }
+}

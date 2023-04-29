@@ -7,3 +7,8 @@ The app incorporates an AI feature that provides personalized dish recommendatio
 Users can view the reviews of the recipes written by other users and write their own reviews after trying out the recipe. The goal of the website is to provide a one-stop destination for users to find recipes of their choice and also get an idea about how others found the recipe before trying it themselves.
 
 Recipe Realm is an interactive platform that aims to be a community for food enthusiasts to share their favorite recipes and provide feedback to others. With Recipe Realm, users can discover new dishes, learn about different cuisines, and connect with other food lovers from around the world.
+
+# System Architecture
+
+
+![System Architecture](https://i.ibb.co/GQhpYN1/Recipe-Realm-System-Design.png)

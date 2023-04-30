@@ -8,7 +8,17 @@ Users can view the reviews of the recipes written by other users and write their
 
 Recipe Realm is an interactive platform that aims to be a community for food enthusiasts to share their favorite recipes and provide feedback to others. With Recipe Realm, users can discover new dishes, learn about different cuisines, and connect with other food lovers from around the world.
 
+# Used Tools & Frameworks
+
+<p align="left">
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/javascript-colored.svg" width="36" height="36" alt="JavaScript" /></a>
+<a href="https://reactnative.dev/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/react-colored.svg" width="36" height="36" alt="React Native" /></a>
+
+</p>
+
 # System Architecture
 
 
 ![System Architecture](https://i.ibb.co/GQhpYN1/Recipe-Realm-System-Design.png)
+
+

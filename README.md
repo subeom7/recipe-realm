@@ -13,7 +13,8 @@ Recipe Realm is an interactive platform that aims to be a community for food ent
 <p align="left">
 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/javascript-colored.svg" width="36" height="36" alt="JavaScript" /></a>
 <a href="https://reactnative.dev/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/danielcranney/readme-generator/main/public/icons/skills/react-colored.svg" width="36" height="36" alt="React Native" /></a>
-<a href="https://expo.dev/" target="_blank" rel="noreferrer"><img src="https://cdn.simpleicons.org/expo/000020" width="36" height="36" alt="DynamoDB" /></a>
+<a href="https://aws.amazon.com/amplify/" target="_blank" rel="noreferrer"><img src="https://cdn.simpleicons.org/awsamplify/FF9900" width="36" height="36" alt="DynamoDB" /></a>
+<a href="https://expo.dev/" target="_blank" rel="noreferrer"><img src="https://cdn.simpleicons.org/expo/000020" width="36" height="36" alt="expo" /></a>
 <a href="https://aws.amazon.com/dynamodb/" target="_blank" rel="noreferrer"><img src="https://cdn.simpleicons.org/amazondynamodb/4053D6" width="36" height="36" alt="DynamoDB" /></a>
 
 </p>
